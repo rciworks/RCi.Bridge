@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Martynas Apanavicius</Authors>
+    <Company>RCi Works</Company>
+    <Description>Dynamic cross-assembly storage.</Description>
+    <PackageProjectUrl>https://github.com/rciworks/RCi.Bridge</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/rciworks/RCi.Bridge/blob/master/LICENSE</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/rciworks/RCi.Bridge</RepositoryUrl>
+    <PackageReleaseNotes>Dynamic cross-assembly storage.</PackageReleaseNotes>
+    <PackageTags>dynamic storage crossassembly</PackageTags>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <LangVersion>4</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard2.0\RCi.Bridge.xml</DocumentationFile>
+    <LangVersion>4</LangVersion>
+  </PropertyGroup>
+
+</Project>
