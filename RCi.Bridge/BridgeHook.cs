@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace RCi.Bridge
@@ -30,18 +31,21 @@ namespace RCi.Bridge
             // which will invoke this method again
             HookInstalled = true;
 
-            // link adapters from all loaded assemblies
-            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                LinkAdapters(assembly);
-            }
+            // get currently loaded assemblies
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
-            // init hook
+            // init hook (so that all new assemblies would be linked)
             AppDomain.CurrentDomain.AssemblyLoad += (sender, args) =>
             {
                 // link adapters from new assembly
                 LinkAdapters(args.LoadedAssembly);
             };
+
+            // link adapters from all loaded assemblies
+            foreach (var assembly in assemblies)
+            {
+                LinkAdapters(assembly);
+            }
         }
 
         /// <summary>
@@ -52,12 +56,20 @@ namespace RCi.Bridge
             var typeIBridgeAdapter = typeof(IBridgeAdapter);
 
             // let's query all adapter types
-            var typesFiltered = assembly.GetTypes().Where(type =>
-                !type.IsInterface &&
-                !type.IsAbstract &&
-                !type.IsGenericTypeDefinition &&
-                typeIBridgeAdapter.IsAssignableFrom(type)
+            IEnumerable<Type> typesFiltered;
+            try
+            {
+                typesFiltered = assembly.GetTypes().Where(type =>
+                    !type.IsInterface &&
+                    !type.IsAbstract &&
+                    !type.IsGenericTypeDefinition &&
+                    typeIBridgeAdapter.IsAssignableFrom(type)
                 );
+            }
+            catch (System.Reflection.ReflectionTypeLoadException e)
+            {
+                typesFiltered = e.Types.Where(type => type != null);
+            }
 
             // create instance for each adapter and link to the bridge
             foreach (var type in typesFiltered)
