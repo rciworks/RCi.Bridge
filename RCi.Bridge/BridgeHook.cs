@@ -26,7 +26,7 @@ namespace RCi.Bridge
                 return;
             }
 
-            // flag singleton hook immediatelly,
+            // flag singleton hook immediately,
             // because loading adapters might point back to bridge
             // which will invoke this method again
             HookInstalled = true;
@@ -80,7 +80,8 @@ namespace RCi.Bridge
                 // ensure we got it
                 if (constructorInfo == null)
                 {
-                    throw new BridgeAdapterInitializationException(string.Format("Bridge adapter of type '{0}' does not have parameterless constructor.", type));
+                    throw new BridgeAdapterInitializationException(string.Format(
+                        "Bridge adapter of type '{0}' does not have parameterless constructor.", type));
                 }
 
                 // create adapter
@@ -92,7 +93,8 @@ namespace RCi.Bridge
                 if (bridgeAdapter == null)
                 {
                     // this shouldn't appear ever, unless we screwed at filtering our types
-                    throw new BridgeAdapterInitializationException(string.Format("Bridge adapter of type '{0}' does not implement '{1}'.", type, typeIBridgeAdapter));
+                    throw new BridgeAdapterInitializationException(string.Format(
+                        "Bridge adapter of type '{0}' does not implement '{1}'.", type, typeIBridgeAdapter));
                 }
 
                 // link to the bridge

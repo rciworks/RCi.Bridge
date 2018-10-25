@@ -35,7 +35,8 @@
             // ensure it's not set yet
             if (Initialized)
             {
-                throw new BridgeLinkException(string.Format("Cannot link value of type '{0}'. Link is already enstablished.", typeof(TValue)));
+                throw new BridgeLinkException(string.Format(
+                    "Cannot link value of type '{0}'. Link is already established.", typeof(TValue)));
             }
 
             // create link (store value)
